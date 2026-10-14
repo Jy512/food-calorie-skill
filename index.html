@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 食物热量估算器</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #222;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .upload-box {
+      border: 2px dashed #bbb;
+      border-radius: 15px;
+      padding: 35px 20px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .upload-box:hover {
+      background: #fafafa;
+    }
+
+    #preview {
+      max-width: 100%;
+      max-height: 300px;
+      margin-top: 20px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #222;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      background: #f7f7f7;
+      border-radius: 15px;
+      text-align: left;
+      white-space: pre-wrap;
+      display: none;
+    }
+
+    .warning {
+      margin-top: 20px;
+      color: #777;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🍽️ AI 食物热量估算器</h1>
+
+  <p class="description">
+    上传一张食物图片，AI 帮你估算热量。
+  </p>
+
+  <label class="upload-box">
+    📷 点击这里选择食物图片
+    <input
+      type="file"
+      id="imageInput"
+      accept="image/*"
+      hidden
+    >
+  </label>
+
+  <img id="preview">
+
+  <button id="analyzeButton" disabled>
+    开始分析
+  </button>
+
+  <div id="result"></div>
+
+  <div class="warning">
+    ⚠️ 热量结果仅为估算值，实际热量会受到食物重量、
+    烹饪方式、用油和调味料等因素影响。
+  </div>
+
+</div>
+
+<script>
+
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const analyzeButton = document.getElementById("analyzeButton");
+const result = document.getElementById("result");
+
+imageInput.addEventListener("change", function() {
+
+  const file = imageInput.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    preview.src = e.target.result;
+    preview.style.display = "block";
+
+    analyzeButton.disabled = false;
+
+    result.style.display = "none";
+
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+
+analyzeButton.addEventListener("click", async function() {
+
+  result.style.display = "block";
+
+  result.innerText = "正在分析图片，请稍等……";
+
+  /*
+    注意：
+
+    这里暂时没有连接 AI API。
+
+    下一步我们会添加：
+    图片 → AI → 食物识别 → 热量估算
+  */
+
+  setTimeout(function() {
+
+    result.innerText =
+      "图片已经成功上传！\n\n" +
+      "下一步需要连接 AI 图片识别功能。\n\n" +
+      "连接完成后，这里会显示：\n" +
+      "🍚 食物名称\n" +
+      "⚖️ 估计份量\n" +
+      "🔥 预计热量\n" +
+      "🥩 蛋白质\n" +
+      "🍞 碳水化合物\n" +
+      "🥑 脂肪";
+
+  }, 1000);
+
+});
+
+</script>
+
+</body>
+</html>
